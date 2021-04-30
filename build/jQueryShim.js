@@ -89,8 +89,8 @@ var ajax = function ajax(options) {
   request.withCredentials = options.xhrFields.withCredentials;
   var cacheBuster = "_=" + new Date().getTime();
   if (options.url.indexOf("?") === -1) {
-		options.url += "?" + cacheBuster;
-	} else if (options.url.indexOf("_=") === -1) {
+    options.url += "?" + cacheBuster;
+  } else if (options.url.indexOf("_=") === -1) {
     options.url += "&" + cacheBuster;
   } else {
     options.url = options.url.replace(/_=\d+/, cacheBuster);
