@@ -59,7 +59,9 @@ var jqueryFunction = function jqueryFunction(subject) {
 
 var xhr = function xhr() {
   try {
-    return new window.XMLHttpRequest();
+    var xhrObj = new window.XMLHttpRequest();
+    xhrObj.timeout = 120000;
+    return xhrObj;
   } catch (e) {}
 };
 
