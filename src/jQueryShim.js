@@ -3,7 +3,7 @@
 const jQueryDeferred = require('jquery-deferred');
 const jQueryParam = require('jquery-param');
 
-const jqueryFunction = function(subject) {
+const jqueryFunction = function (subject) {
   let events = subject.events || {};
 
   if (subject && subject === subject.window)
@@ -51,13 +51,15 @@ const jqueryFunction = function(subject) {
   };
 };
 
-const xhr = function() {
+const xhr = function () {
   try {
-    return new window.XMLHttpRequest();
-  } catch (e) {}
+    var xhrObj = new window.XMLHttpRequest()
+    xhrObj.timeout = 120000;
+    return xhrObj;
+  } catch (e) { }
 };
 
-const ajax = function(options) {
+const ajax = function (options) {
   const request = xhr();
 
   if (options.xhrFields && options.xhrFields.withCredentials) {
@@ -83,8 +85,8 @@ const ajax = function(options) {
   request.withCredentials = options.xhrFields.withCredentials;
   var cacheBuster = "_=" + new Date().getTime();
   if (options.url.indexOf("?") === -1) {
-		options.url += "?" + cacheBuster;
-	} else if (options.url.indexOf("_=") === -1) {
+    options.url += "?" + cacheBuster;
+  } else if (options.url.indexOf("_=") === -1) {
     options.url += "&" + cacheBuster;
   } else {
     options.url = options.url.replace(/_=\d+/, cacheBuster);
@@ -101,7 +103,7 @@ const ajax = function(options) {
   request.send(options.data.data && `data=${encodeURIComponent(options.data.data)}`);
 
   return {
-    abort: function(reason) {
+    abort: function (reason) {
       return request.abort(reason);
     }
   };
@@ -113,13 +115,13 @@ module.exports = jQueryDeferred.extend(
   {
     defaultAjaxHeaders: null,
     ajax: ajax,
-    inArray: (arr,item) => arr.indexOf(item) !== -1,
+    inArray: (arr, item) => arr.indexOf(item) !== -1,
     trim: str => str && str.trim(),
     isEmptyObject: obj => !obj || Object.keys(obj).length === 0,
-    makeArray: arr => [].slice.call(arr,0),
+    makeArray: arr => [].slice.call(arr, 0),
     param: obj => jQueryParam(obj),
     support: {
-      cors: (function() {
+      cors: (function () {
         const xhrObj = xhr();
         return !!xhrObj && ("withCredentials" in xhrObj);
       })()
