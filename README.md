@@ -79,7 +79,15 @@ Note: This is an object holding global settings and it's not the same as connect
 ```
 import { connection } from 'signalr-no-jquery';
 ```
-
+#### Update 5/11/2021: enable long polling,add apigee form login token for all xhr requests and set xhr timeout to 2 mins.
+Sample:
+```
+options.headers = {
+    "Authorization": "Bearer " + connection.accessToken,
+    "ApiAuthorization": "Bearer " + connection.apiAccessToken
+};
+```
+send apiAccessToken from service in case of form login. (accessToken being ad token and api access token being apigee token for form login)
 ### Problems
 
 Feel free to create pull requests and raise issues <https://github.com/DVLP/signalr-no-jquery/issues>
