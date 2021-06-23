@@ -803,7 +803,7 @@ var jQueryShim = require('./jQueryShim');
 
                     // Once the server has labeled the PersistentConnection as Disconnected, we should stop attempting to reconnect
                     // after res.DisconnectTimeout seconds.
-                    connection.disconnectTimeout = res.DisconnectTimeout * 1000; // in ms
+                    // connection.disconnectTimeout = res.DisconnectTimeout * 1000; // in ms
 
                     // Add the TransportConnectTimeout from the response to the transportConnectTimeout from the client to calculate the total timeout
                     connection._.totalTransportConnectTimeout = connection.transportConnectTimeout + res.TransportConnectTimeout * 1000;
