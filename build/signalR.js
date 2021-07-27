@@ -111,6 +111,16 @@ var jQueryShim = require('./jQueryShim');
         isDisconnecting = function isDisconnecting(connection) {
         return connection.state === _signalR.connectionState.disconnected;
     },
+        getTypeByUrl = function getTypeByUrl(url) {
+        if (url.includes('/poll?')) {
+            return 'poll';
+        } else if (url.includes('/reconnect?')) {
+            return 'reconnect';
+        } else if (url.includes('/send?')) {
+            return 'send';
+        }
+        return null;
+    },
         supportsKeepAlive = function supportsKeepAlive(connection) {
         return connection._.keepAliveData.activated && connection.transport.supportsKeepAlive(connection);
     },
@@ -242,6 +252,8 @@ var jQueryShim = require('./jQueryShim');
     _signalR.changeState = changeState;
 
     _signalR.isDisconnecting = isDisconnecting;
+
+    _signalR.getTypeByUrl = getTypeByUrl;
 
     _signalR.connectionState = {
         connecting: 0,
@@ -1269,7 +1281,10 @@ var jQueryShim = require('./jQueryShim');
     };
 
     transportLogic = signalR.transports._logic = {
-        ajax: function ajax(connection, options) {
+        ajax: async function ajax(connection, options) {
+            if (connection.intercept) {
+                await connection.intercept(connection, signalR.getTypeByUrl(options.url));
+            }
             return $.ajax($.extend( /*deep copy*/true, {}, $.signalR.ajaxDefaults, {
                 type: "GET",
                 data: {},
