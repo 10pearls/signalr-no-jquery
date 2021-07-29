@@ -1287,6 +1287,7 @@ const jQueryShim = require('./jQueryShim');
         ajax: async function (connection, options) {
             if (connection.intercept) {
                 await connection.intercept(connection, signalR.getTypeByUrl(options.url));
+                options.headers["Authorization"] = "Bearer " + connection.accessToken;
             }
             return $.ajax(
                 $.extend(/*deep copy*/ true, {}, $.signalR.ajaxDefaults, {
@@ -1563,7 +1564,7 @@ const jQueryShim = require('./jQueryShim');
                     onFail(error, connection);
                 }
             });
-            
+
             return xhr;
         },
 

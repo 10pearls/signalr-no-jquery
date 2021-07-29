@@ -41,5 +41,5 @@
     "build": "babel src --presets babel-preset-es2015 --out-dir build",
     "test": "jest"
   },
-  "version": "0.3.4"
+  "version": "0.3.5"
 }
